@@ -110,6 +110,8 @@ window.onload = e => {
   rootDiv = document.getElementById("comments");
 
   renderComments(rootDiv, comments);
+
+  document.querySelector("form").onsubmit = addComment;
 };
 
 window.onunload = e => {
