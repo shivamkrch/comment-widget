@@ -1,0 +1,97 @@
+* {
+  transition: 0.5s;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: rgb(225, 226, 226);
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  max-width: 600px;
+  padding: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+}
+
+form {
+  text-align: right;
+  padding: 0.5rem;
+}
+
+input[type="text"] {
+  border: 2px solid rgb(29, 70, 253);
+  border-radius: 3px;
+  padding: 0.3rem;
+  margin: 0.3rem;
+  width: 96%;
+}
+
+.post-btn {
+  background-color: #03af03;
+  color: whitesmoke;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.post-btn:hover {
+  background-color: #018b01;
+}
+
+#comments {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.comment {
+  padding: 0.5rem;
+  margin: 5px 1px;
+  width: 95%;
+  border: 0.5px solid #ccc;
+  border-radius: 3px;
+  animation: fade-in 2s 1;
+  background-color: #fff;
+}
+
+@keyframes fade-in {
+  0% {
+    background-color: rgb(248, 196, 100);
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+.comment p {
+  margin: 2px;
+}
+
+.comment button {
+  background: none;
+  border: none;
+  color: rgb(3, 3, 221);
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.comment small {
+  color: rgb(68, 68, 68);
+  font-size: 0.7rem;
+  display: inline-block;
+  padding: 1px 6px;
+}
+
+.comment .replies {
+  width: 90%;
+  margin-left: 5%;
+  font-size: 0.9rem;
+  margin-top: 0.7rem;
+}
