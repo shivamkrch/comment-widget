@@ -57,7 +57,7 @@ input[type="text"] {
   width: 95%;
   border: 0.5px solid #ccc;
   border-radius: 3px;
-  animation: fade-in 2s 1;
+  animation: fade-in 1s 1;
   background-color: #fff;
 }
 
@@ -68,9 +68,11 @@ input[type="text"] {
 @keyframes fade-in {
   0% {
     background-color: rgb(248, 196, 100);
+    opacity: 0;
   }
   100% {
     background-color: white;
+    opacity: 1;
   }
 }
 
