@@ -27,12 +27,17 @@ function getCommentDiv(comment) {
   let replyBtn = document.createElement("button");
   replyBtn.textContent = "Reply";
   replyBtn.onclick = insertReplyForm;
+  replyBtn.classList.add("reply-btn");
+  let deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.onclick = onDeleteComment;
+  deleteBtn.classList.add("delete-btn");
   let commentTime = document.createElement("small");
   commentTime.textContent = new Date(comment.id).toLocaleString();
   let replies = document.createElement("div");
   replies.classList.add("replies");
   replies.id = "replies-" + comment.id;
-  commentDiv.append(commentText, replyBtn, commentTime, replies);
+  commentDiv.append(commentText, replyBtn, deleteBtn, commentTime, replies);
   return commentDiv;
 }
 
@@ -58,7 +63,7 @@ function addComment(e) {
         parseInt(e.target.getAttribute("comment-id"))
       )
     ) {
-      console.log("unable to insert");
+      console.error("unable to insert");
     }
     e.target.before(commentDiv);
   }
@@ -77,7 +82,7 @@ function insertReplyForm(e) {
     return;
   }
   replyForm = getCommentForm(el.getAttribute("comment-id"));
-  el.children[3].append(replyForm);
+  el.children[4].append(replyForm);
   replyForm.children[0].focus();
 }
 
@@ -95,12 +100,38 @@ function addReply(comments, reply, parentCommentId) {
   return 0;
 }
 
+function deleteComment(comments, delId) {
+  for (let i = 0; i < comments.length; i++) {
+    if (comments[i].id == delId) {
+      comments.splice(i, 1);
+      return 1;
+    } else if (comments[i].replies.length) {
+      if (deleteComment(comments[i].replies, delId)) {
+        return 1;
+      }
+    }
+  }
+  return 0;
+}
+
+function onDeleteComment(e) {
+  let delId = parseInt(e.target.parentElement.getAttribute("comment-id"));
+  if (deleteComment(comments, delId)) {
+    e.target.parentElement.onanimationend = e => {
+      e.target.remove();
+    };
+    e.target.parentElement.style.animation = "fade-out .8s 1";
+  } else {
+    console.error("delete failed");
+  }
+}
+
 function renderComments(root, comments) {
   for (comment of comments) {
     let newDiv = getCommentDiv(comment);
     root.prepend(newDiv);
     if (comment.replies.length) {
-      renderComments(newDiv.children[3], comment.replies);
+      renderComments(newDiv.children[4], comment.replies);
     }
   }
 }
