@@ -106,7 +106,8 @@ function renderComments(root, comments) {
 }
 
 window.onload = e => {
-  comments = JSON.parse(localStorage.getItem("comments")) || [];
+  if (localStorage.getItem("comments"))
+    comments = JSON.parse(localStorage.getItem("comments"));
   rootDiv = document.getElementById("comments");
 
   renderComments(rootDiv, comments);
