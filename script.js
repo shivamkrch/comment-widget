@@ -33,7 +33,7 @@ function getCommentDiv(comment) {
   deleteBtn.onclick = onDeleteComment;
   deleteBtn.classList.add("delete-btn");
   let commentTime = document.createElement("small");
-  commentTime.textContent = new Date(comment.id).toLocaleString();
+  commentTime.textContent = parseDate(comment.id);
   let replies = document.createElement("div");
   replies.classList.add("replies");
   replies.id = "replies-" + comment.id;
@@ -77,13 +77,10 @@ function insertReplyForm(e) {
   let replyForm = document.querySelector(
     'form[comment-id="' + el.getAttribute("comment-id") + '"]'
   );
-  if (replyForm) {
-    replyForm.children[0].focus({});
-    return;
-  }
   replyForm = getCommentForm(el.getAttribute("comment-id"));
   el.children[4].append(replyForm);
   replyForm.children[0].focus();
+  e.target.remove();
 }
 
 function addReply(comments, reply, parentCommentId) {
@@ -136,6 +133,32 @@ function renderComments(root, comments) {
   }
 }
 
+function parseDate(date) {
+  let diff = (Date.now() - date) / 1000;
+  if (diff < 60) {
+    return "Just now";
+  } else if (diff < 60 * 60) {
+    let d = parseInt(diff / 60);
+    if (d > 1) {
+      return d + " mins ago";
+    }
+    return d + " min ago";
+  } else if (diff < 24 * 60 * 60) {
+    let d = parseInt(diff / (60 * 60));
+    if (d > 1) {
+      return d + " hours ago";
+    }
+    return d + " hour ago";
+  } else if (diff < 2 * 24 * 60 * 60) {
+    return "Yesterday";
+  } else {
+    return new Date(comment.id).toLocaleString("en-IN", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
+  }
+}
+
 window.onload = e => {
   if (localStorage.getItem("comments"))
     comments = JSON.parse(localStorage.getItem("comments"));
@@ -144,6 +167,14 @@ window.onload = e => {
   renderComments(rootDiv, comments);
 
   document.querySelector("form").onsubmit = addComment;
+
+  setInterval(() => {
+    document.querySelectorAll(".comment small").forEach(el => {
+      let time = el.parentElement.getAttribute("comment-id");
+      el.textContent = parseDate(parseInt(time));
+    });
+    console.log("updated");
+  }, 60 * 1000);
 };
 
 window.onunload = e => {
