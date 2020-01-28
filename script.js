@@ -173,7 +173,6 @@ window.onload = e => {
       let time = el.parentElement.getAttribute("comment-id");
       el.textContent = parseDate(parseInt(time));
     });
-    console.log("updated");
   }, 60 * 1000);
 };
 
