@@ -159,7 +159,7 @@ function parseDate(date) {
   }
 }
 
-window.onload = e => {
+onload = e => {
   if (localStorage.getItem("comments"))
     comments = JSON.parse(localStorage.getItem("comments"));
   rootDiv = document.getElementById("comments");
@@ -176,6 +176,6 @@ window.onload = e => {
   }, 60 * 1000);
 };
 
-window.onunload = e => {
+onunload = onblur = e => {
   localStorage.setItem("comments", JSON.stringify(comments));
 };
